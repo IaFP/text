@@ -1,6 +1,8 @@
 {-# LANGUAGE CPP, DeriveDataTypeable, UnboxedTuples #-}
 {-# OPTIONS_HADDOCK not-home #-}
-
+#if __GLASGOW_HASKELL__ >= 810
+{-# LANGUAGE PartialTypeConstructors #-}
+#endif 
 -- |
 -- Module      : Data.Text.Internal
 -- Copyright   : (c) 2008, 2009 Tom Harper,

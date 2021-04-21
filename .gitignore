@@ -8,3 +8,4 @@
 /GNUmakefile
 /.ghc.environment.*
 /cabal.project.local
+*.hs.bak

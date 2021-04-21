@@ -2,6 +2,10 @@
 #if __GLASGOW_HASKELL__ >= 702
 {-# LANGUAGE Trustworthy #-}
 #endif
+#if __GLASGOW_HASKELL__ >= 810
+{-# LANGUAGE PartialTypeConstructors #-}
+#endif
+
 -- |
 -- Module      : Data.Text.IO
 -- Copyright   : (c) 2009, 2010 Bryan O'Sullivan,

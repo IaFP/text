@@ -1,3 +1,7 @@
+{-# LANGUAGE CPP #-}
+#if __GLASGOW_HASKELL__ >= 810
+{-# LANGUAGE PartialTypeConstructors #-}
+#endif
 -- |
 -- Module      : Data.Text.Internal.Read
 -- Copyright   : (c) 2014 Bryan O'Sullivan

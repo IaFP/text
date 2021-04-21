@@ -1,6 +1,10 @@
 {-# LANGUAGE BangPatterns, CPP, ForeignFunctionInterface, MagicHash, Rank2Types,
     RecordWildCards, UnboxedTuples, UnliftedFFITypes #-}
 {-# OPTIONS_GHC -fno-warn-unused-matches #-}
+#if __GLASGOW_HASKELL__ >= 810
+{-# LANGUAGE PartialTypeConstructors #-}
+#endif
+
 -- |
 -- Module      : Data.Text.Array
 -- Copyright   : (c) 2009, 2010, 2011 Bryan O'Sullivan
