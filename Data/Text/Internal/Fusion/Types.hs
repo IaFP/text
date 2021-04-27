@@ -41,9 +41,6 @@ import GHC.Types (type (@@))
 
 -- | Specialised tuple for case conversion.
 data CC s = CC !s {-# UNPACK #-} !Char {-# UNPACK #-} !Char
-#if MIN_VERSION_base(4,14,0)
-type instance CC @@ s = ()
-#endif
 
 -- | Restreaming state.
 data RS s
@@ -51,34 +48,20 @@ data RS s
     | RS1 !s {-# UNPACK #-} !Word8
     | RS2 !s {-# UNPACK #-} !Word8 {-# UNPACK #-} !Word8
     | RS3 !s {-# UNPACK #-} !Word8 {-# UNPACK #-} !Word8 {-# UNPACK #-} !Word8
-#if MIN_VERSION_base(4,14,0)
-type instance RS @@ s = ()
-#endif
 
 -- | Strict pair.
 data PairS a b = !a :*: !b
                  -- deriving (Eq, Ord, Show)
 infixl 2 :*:
-#if MIN_VERSION_base(4,14,0)
-type instance PairS @@ a = ()
-type instance PairS b @@ a = ()
-#endif
 
 -- | An intermediate result in a scan.
 data Scan s = Scan1 {-# UNPACK #-} !Char !s
             | Scan2 {-# UNPACK #-} !Char !s
-#if MIN_VERSION_base(4,14,0)
-type instance Scan @@ s = ()
-#endif
 
 -- | Intermediate result in a processing pipeline.
 data Step s a = Done
               | Skip !s
               | Yield !a !s
-#if MIN_VERSION_base(4,14,0)
-type instance Step @@ s = ()
-type instance Step a @@ s = ()
-#endif
 
 {-
 instance (Show a) => Show (Step s a)
@@ -110,9 +93,6 @@ data Stream a =
     (s -> Step s a)             -- stepper function
     !s                          -- current state
     !Size                       -- size hint in code units
-#if MIN_VERSION_base(4,14,0)
-type instance Stream @@ a = ()
-#endif
 
 -- | /O(n)/ Determines if two streams are equal.
 eq :: (Eq a) => Stream a -> Stream a -> Bool
