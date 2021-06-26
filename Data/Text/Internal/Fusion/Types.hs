@@ -35,9 +35,6 @@ module Data.Text.Internal.Fusion.Types
 
 import Data.Text.Internal.Fusion.Size
 import Data.Word (Word8)
-#if MIN_VERSION_base(4,14,0)
-import GHC.Types (type (@@))
-#endif
 
 -- | Specialised tuple for case conversion.
 data CC s = CC !s {-# UNPACK #-} !Char {-# UNPACK #-} !Char
