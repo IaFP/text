@@ -47,7 +47,7 @@ type Parser a = IParser Text a
 -- attempt to detect overflow, so a sufficiently long input may give
 -- incorrect results.  If you are worried about overflow, use
 -- 'Integer' for your result type.
-decimal :: Integral a => Reader a
+decimal :: Integral a => Reader a {-
 {-# SPECIALIZE decimal :: Reader Int #-}
 {-# SPECIALIZE decimal :: Reader Int8 #-}
 {-# SPECIALIZE decimal :: Reader Int16 #-}
@@ -58,7 +58,7 @@ decimal :: Integral a => Reader a
 {-# SPECIALIZE decimal :: Reader Word8 #-}
 {-# SPECIALIZE decimal :: Reader Word16 #-}
 {-# SPECIALIZE decimal :: Reader Word32 #-}
-{-# SPECIALIZE decimal :: Reader Word64 #-}
+{-# SPECIALIZE decimal :: Reader Word64 #-}-}
 decimal txt
     | T.null h  = Left "input does not start with a digit"
     | otherwise = Right (T.foldl' go 0 h, t)
@@ -77,7 +77,7 @@ decimal txt
 -- attempt to detect overflow, so a sufficiently long input may give
 -- incorrect results.  If you are worried about overflow, use
 -- 'Integer' for your result type.
-hexadecimal :: Integral a => Reader a
+hexadecimal :: Integral a => Reader a{-
 {-# SPECIALIZE hexadecimal :: Reader Int #-}
 {-# SPECIALIZE hexadecimal :: Reader Int8 #-}
 {-# SPECIALIZE hexadecimal :: Reader Int16 #-}
@@ -88,13 +88,13 @@ hexadecimal :: Integral a => Reader a
 {-# SPECIALIZE hexadecimal :: Reader Word8 #-}
 {-# SPECIALIZE hexadecimal :: Reader Word16 #-}
 {-# SPECIALIZE hexadecimal :: Reader Word32 #-}
-{-# SPECIALIZE hexadecimal :: Reader Word64 #-}
+{-# SPECIALIZE hexadecimal :: Reader Word64 #-}-}
 hexadecimal txt
     | h == "0x" || h == "0X" = hex t
     | otherwise              = hex txt
  where (h,t) = T.splitAt 2 txt
 
-hex :: Integral a => Reader a
+hex :: Integral a => Reader a {-
 {-# SPECIALIZE hex :: Reader Int #-}
 {-# SPECIALIZE hex :: Reader Int8 #-}
 {-# SPECIALIZE hex :: Reader Int16 #-}
@@ -105,7 +105,7 @@ hex :: Integral a => Reader a
 {-# SPECIALIZE hex :: Reader Word8 #-}
 {-# SPECIALIZE hex :: Reader Word16 #-}
 {-# SPECIALIZE hex :: Reader Word32 #-}
-{-# SPECIALIZE hex :: Reader Word64 #-}
+{-# SPECIALIZE hex :: Reader Word64 #-} -}
 hex txt
     | T.null h  = Left "input does not start with a hexadecimal digit"
     | otherwise = Right (T.foldl' go 0 h, t)
@@ -139,7 +139,7 @@ signed f = runP (signa (P f))
 -- >rational "3.foo" == Right (3.0, ".foo")
 -- >rational "3e"    == Right (3.0, "e")
 rational :: Fractional a => Reader a
-{-# SPECIALIZE rational :: Reader Double #-}
+-- {-# SPECIALIZE rational :: Reader Double #-}
 rational = floaty $ \real frac fracDenom -> fromRational $
                      real % 1 + frac % fracDenom
 
@@ -160,13 +160,13 @@ double = floaty $ \real frac fracDenom ->
                    fromIntegral real +
                    fromIntegral frac / fromIntegral fracDenom
 
-signa :: Num a => Parser a -> Parser a
+signa :: Num a => Parser a -> Parser a {-
 {-# SPECIALIZE signa :: Parser Int -> Parser Int #-}
 {-# SPECIALIZE signa :: Parser Int8 -> Parser Int8 #-}
 {-# SPECIALIZE signa :: Parser Int16 -> Parser Int16 #-}
 {-# SPECIALIZE signa :: Parser Int32 -> Parser Int32 #-}
 {-# SPECIALIZE signa :: Parser Int64 -> Parser Int64 #-}
-{-# SPECIALIZE signa :: Parser Integer -> Parser Integer #-}
+{-# SPECIALIZE signa :: Parser Integer -> Parser Integer #-}-}
 signa p = do
   sign <- perhaps '+' $ char (\c -> c == '-' || c == '+')
   if sign == '+' then p else negate `liftM` p

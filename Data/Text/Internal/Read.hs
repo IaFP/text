@@ -26,12 +26,19 @@ import Control.Applicative as App (Applicative(..))
 import Control.Arrow (first)
 import Control.Monad (ap)
 import Data.Char (ord)
+#if MIN_VERSION_base(4,14,0)
+import GHC.Types (Total)
+#endif
 
 type IReader t a = t -> Either String (a,t)
 
 newtype IParser t a = P {
       runP :: IReader t a
     }
+
+#if MIN_VERSION_base(4,14,0)
+instance Total (IParser t)
+#endif
 
 instance Functor (IParser t) where
     fmap f m = P $ fmap (first f) . runP m
